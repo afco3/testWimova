@@ -1,0 +1,21 @@
+*{
+    font-family: sans-serif;
+}
+
+#output{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+#output th{
+    padding-bottom: 15px;
+}
+
+#output td{
+    padding-bottom: 5px;
+}
+
+#output tr td:first-child, th:first-child{
+    padding-right: 30px;
+}

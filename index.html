@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <main>
-            <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-            <script>
-                // compile the template
-                var template = Handlebars.compile("{{#each user}} <tr>{{nom}}</tr> <tr>{{prenom}}</tr> {{/each}}");
-                // execute the compiled template and print the output to the console
-            </script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <script type="text/x-handlebars-template" id="template">
             <table>
                 <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prenom</th>
-                </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <script>
-                        let httpRequest;
-                        httpRequest = new XMLHttpRequest();
-
-                        httpRequest.onreadystatechange = function() {
-                            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                                if (httpRequest.status === 200) {
-                                    let users = httpRequest.responseText;
-                                    console.log(template({users}));
-                                    console.log(users);
-                                    console.log("la");
-                                }
-                            }
-                        };
-                        httpRequest.open('GET', 'data.php');
-                        httpRequest.send();
-                </script>
+                {{#each Users}}
+                <tr>
+                    <td>{{this.nom}}</td>
+                    <td>{{this.prenom}}</td>
+                </tr>
+                {{/each}}
                 </tbody>
             </table>
-        </main>
-    </body>
+        </script>
+
+        <div id="output">
+
+        </div>
+
+        <script>
+            $.ajax({
+                type: "POST",
+                url: 'data.php',
+                success: function (response) {
+                    let template = Handlebars.compile(document.getElementById("template").innerHTML);
+                    response = { Users : JSON.parse(response)}
+                    document.querySelector("#output").innerHTML = template(response);
+                }
+            });
+        </script>
+
+</body>
 </html>

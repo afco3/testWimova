@@ -8,7 +8,6 @@ try {
 }
 
 if(isset($db)) {
-
     $req = $db->query("SELECT nom, prenom FROM Users");
     $result = $req->fetchAll();
     echo json_encode($result);
